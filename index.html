@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÐÐ¸ÑÐ½ÑÐ¹ ÐºÐ°Ð±Ð¸Ð½ÐµÑ â ÐÐ°ÑÐ¸Ð°Ð½ÑÑ Ð´Ð¸Ð·Ð°Ð¹Ð½Ð°</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+    background: #F6F7FB;
+    color: #0A1B33;
+    padding: 60px 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 {
+    font-size: 28px; font-weight: 700; color: #283F5B;
+    margin-bottom: 8px; text-align: center;
+  }
+  .sub {
+    font-size: 15px; color: #9BA2BE; text-align: center;
+    margin-bottom: 48px; font-weight: 400;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #F0F1F7;
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card:hover {
+    border-color: #557CEA;
+    box-shadow: 0 8px 30px rgba(85,124,234,0.12);
+    transform: translateY(-2px);
+  }
+  .card-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 10px;
+    background: #F0F3FF; color: #557CEA;
+    font-size: 14px; font-weight: 700;
+  }
+  .card-title { font-size: 17px; font-weight: 600; color: #0A1B33; }
+  .card-desc { font-size: 13px; color: #6B7A99; line-height: 1.5; }
+  .card-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 11px; font-weight: 600;
+    width: fit-content;
+  }
+  .tag-minimal { background: #F0F3FF; color: #557CEA; }
+  .tag-gradient { background: #E8F8EE; color: #3D9B63; }
+  .tag-layout { background: #FFF4E5; color: #C47E1A; }
+  .tag-gallery { background: #F0E8FF; color: #7B5CB8; }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    body { padding: 32px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>ÐÐ¸ÑÐ½ÑÐ¹ ÐºÐ°Ð±Ð¸Ð½ÐµÑ Vertical</h1>
+  <p class="sub">ÐÐ°ÑÐ¸Ð°Ð½ÑÑ Ð´Ð¸Ð·Ð°Ð¹Ð½Ð° ÑÑÑÐ°Ð½Ð¸ÑÑ Ð²ÑÐ¾Ð´Ð°</p>
+
+  <div class="grid">
+    <a href="index-1.html" class="card">
+      <div class="card-num">1</div>
+      <div class="card-title">ÐÐ¸Ð½Ð¸Ð¼Ð°Ð»Ð¸Ð·Ð¼</div>
+      <div class="card-desc">Ð§Ð¸ÑÑÐ°Ñ Ð±ÐµÐ»Ð°Ñ ÐºÐ°ÑÑÐ¾ÑÐºÐ° Ð½Ð° ÑÐ²ÐµÑÐ»Ð¾Ð¼ ÑÐ¾Ð½Ðµ Ñ Ð´ÐµÐºÐ¾ÑÐ°ÑÐ¸Ð²Ð½ÑÐ¼Ð¸ Ð±Ð»ÑÑ-ÐºÑÑÐ³Ð°Ð¼Ð¸</div>
+      <div class="card-tag tag-minimal">ÐÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑÐ½ÑÐ¹</div>
+    </a>
+
+    <a href="index-2.html" class="card">
+      <div class="card-num">2</div>
+      <div class="card-title">ÐÐ½Ð¸Ð¼Ð¸ÑÐ¾Ð²Ð°Ð½Ð½ÑÐ¹ Ð³ÑÐ°Ð´Ð¸ÐµÐ½Ñ</div>
+      <div class="card-desc">ÐÐ¸Ð²Ð¾Ð¹ ÑÐ¾Ð½ Ñ Ð¿ÐµÑÐµÑÐµÐºÐ°ÑÑÐ¸Ð¼Ð¸ ÑÐ°ÑÐ°Ð¼Ð¸ Ð¾Ñ ÑÐ¸Ð½ÐµÐ³Ð¾ Vertical Ðº Ð·ÐµÐ»ÑÐ½Ð¾Ð¼Ñ Becar</div>
+      <div class="card-tag tag-gradient">ÐÐ½Ð¸Ð¼Ð°ÑÐ¸Ñ</div>
+    </a>
+
+    <a href="index-3.html" class="card">
+      <div class="card-num">3</div>
+      <div class="card-title">ÐÐ²Ðµ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸</div>
+      <div class="card-desc">Ð¤Ð¾ÑÐ¼Ð° ÑÐ»ÐµÐ²Ð°, Ð²Ð¸ÑÑÐ¸Ð½Ð° ÑÐ¿ÑÐ°Ð²Ð°: ÑÐ»Ð°Ð¹Ð´ÐµÑ Ð¿ÑÐ¾ÐµÐºÑÐ¾Ð², ÑÑÐ°ÑÐ¸ÑÑÐ¸ÐºÐ°, Ð¸Ð½ÑÑÐ°ÑÑÑÑÐºÑÑÑÐ°</div>
+      <div class="card-tag tag-layout">ÐÐ²ÑÑÐºÐ¾Ð»Ð¾Ð½Ð¾ÑÐ½ÑÐ¹</div>
+    </a>
+
+    <a href="index-4.html" class="card">
+      <div class="card-num">4</div>
+      <div class="card-title">Ð¤Ð¾ÑÐ¾-Ð³Ð°Ð»ÐµÑÐµÑ</div>
+      <div class="card-desc">ÐÑÐ¾ÐºÑÑÑÐ¸Ð²Ð°ÑÑÐ¸ÐµÑÑ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸ Ñ ÑÐ¾ÑÐ¾Ð³ÑÐ°ÑÐ¸ÑÐ¼Ð¸ Ð½ÐµÐ´Ð²Ð¸Ð¶Ð¸Ð¼Ð¾ÑÑÐ¸ Ð½Ð° ÑÐ¾Ð½Ðµ</div>
+      <div class="card-tag tag-gallery">ÐÐ°Ð»ÐµÑÐµÑ</div>
+    </a>
+
+    <a href="index-5.html" class="card">
+      <div class="card-num">5</div>
+      <div class="card-title">Ð¢ÑÐ¸ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸</div>
+      <div class="card-desc">Ð¤Ð¾ÑÐ¼Ð° Ð² ÑÐµÐ½ÑÑÐµ, ÑÑÐ°ÑÐ¸ÑÑÐ¸ÐºÐ° Ð¸ ÐºÐ¾Ð½ÑÐµÐ½Ñ Ð¿Ð¾ Ð±Ð¾ÐºÐ°Ð¼ Ñ Ð´ÐµÐºÐ¾ÑÐ°ÑÐ¸Ð²Ð½ÑÐ¼Ð¸ ÑÐµÐ¹Ð¿Ð°Ð¼Ð¸</div>
+      <div class="card-tag tag-layout">Ð¢ÑÑÑÐºÐ¾Ð»Ð¾Ð½Ð¾ÑÐ½ÑÐ¹</div>
+    </a>
+
+    <a href="index-6.html" class="card">
+      <div class="card-num">6</div>
+      <div class="card-title">Ð¢ÑÐ¸ ÐºÐ¾Ð»Ð¾Ð½ÐºÐ¸ + Ð³Ð°Ð»ÐµÑÐµÑ</div>
+      <div class="card-desc">ÐÐ°Ðº Ð²Ð°ÑÐ¸Ð°Ð½Ñ 5, Ð½Ð¾ Ñ Ð¼Ð¸Ð½Ð¸-Ð³Ð°Ð»ÐµÑÐµÐµÐ¹ Ð¸Ð½ÑÑÐ°ÑÑÑÑÐºÑÑÑÑ Ð¸ Ð»Ð°Ð¹ÑÐ±Ð¾ÐºÑÐ¾Ð¼ Ð¿Ð¾ ÐºÐ»Ð¸ÐºÑ</div>
+      <div class="card-tag tag-gallery">Ð¢ÑÑÑÐºÐ¾Ð»Ð¾Ð½Ð¾ÑÐ½ÑÐ¹ + ÑÐ¾ÑÐ¾</div>
+    </a>
+
+    <a href="index-8.html" class="card">
+      <div class="card-num">8</div>
+      <div class="card-title">Ð¤Ð¾ÑÐ¾-Ð³Ð°Ð»ÐµÑÐµÑ + Ð»Ð°Ð¹ÑÐ±Ð¾ÐºÑ</div>
+      <div class="card-desc">ÐÐ°Ðº Ð²Ð°ÑÐ¸Ð°Ð½Ñ 4, Ð½Ð¾ ÑÐ¾ÑÐ¾ ÑÐ²ÐµÐ»Ð¸ÑÐ¸Ð²Ð°ÑÑÑÑ Ð¿ÑÐ¸ Ð½Ð°Ð²ÐµÐ´ÐµÐ½Ð¸Ð¸ Ð¸ Ð¾ÑÐºÑÑÐ²Ð°ÑÑÑÑ Ð¿Ð¾ ÐºÐ»Ð¸ÐºÑ</div>
+      <div class="card-tag tag-gallery">ÐÐ°Ð»ÐµÑÐµÑ + Ð·ÑÐ¼</div>
+    </a>
+  </div>
+</div>
+</body>
+</html>
