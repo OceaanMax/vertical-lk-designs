@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÐÑÐ¾Ð´ â ÐÐ¸ÑÐ½ÑÐ¹ ÐºÐ°Ð±Ð¸Ð½ÐµÑ | ÐÐ°ÑÐ¸Ð°Ð½Ñ 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F6F7FB;
+    color: #0A1B33;
+  }
+
+  .login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 2px 16px rgba(10, 27, 51, 0.06);
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 600;
+    color: #283F5B;
+    margin-bottom: 10px;
+    text-align: center;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: #9BA2BE;
+    margin-bottom: 28px;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #283F5B;
+    margin-bottom: 7px;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #E9EBF8;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #0A1B33;
+    background: #F6F7FB;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .form-group input::placeholder { color: #B0B5CB; }
+
+  .form-group input:focus {
+    border-color: #557CEA;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(85, 124, 234, 0.08);
+  }
+
+  .password-wrapper { position: relative; }
+  .password-wrapper input { padding-right: 48px; }
+
+  .toggle-password {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: #B0B5CB; padding: 4px;
+    transition: color 0.2s;
+  }
+  .toggle-password:hover { color: #557CEA; }
+
+  .forgot-link {
+    display: block; text-align: center; font-size: 13px;
+    color: #557CEA; text-decoration: none; margin-bottom: 24px; font-weight: 500;
+  }
+  .forgot-link:hover { color: #3A7FD9; }
+
+  /* ÐÐ½Ð¾Ð¿ÐºÐ°-Ð¿Ð¸Ð»ÑÐ»Ñ ÐºÐ°Ðº Ð½Ð° ÑÐ°Ð¹ÑÐµ ÐÐµÑÑÐ¸ÐºÐ°Ð»Ð¸ */
+  .btn-login {
+    width: 100%; padding: 17px 32px;
+    background: #557CEA; color: #fff;
+    border: none; border-radius: 300px;
+    font-size: 14px; font-weight: 600;
+    font-family: inherit; cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    height: 55px;
+  }
+  .btn-login:hover {
+    background: #4468D0;
+    box-shadow: 0 6px 20px rgba(85, 124, 234, 0.25);
+  }
+  .btn-login:active { transform: translateY(1px); }
+
+  .btn-login svg { transition: transform 0.2s; }
+  .btn-login:hover svg { transform: translateX(3px); }
+
+  .agreement {
+    margin-top: 24px; font-size: 12px; color: #9BA2BE;
+    text-align: center; line-height: 1.6;
+  }
+  .agreement a { color: #557CEA; text-decoration: none; }
+  .agreement a:hover { text-decoration: underline; }
+
+  .help-link {
+    display: block; text-align: center; margin-top: 16px;
+    font-size: 13px; color: #9BA2BE; text-decoration: none;
+  }
+  .help-link:hover { color: #557CEA; }
+
+  /* ÐÐµÐºÐ¾ÑÐ°ÑÐ¸Ð²Ð½ÑÐµ Ð¼ÑÐ³ÐºÐ¸Ðµ Ð±Ð»ÑÑ-ÐºÑÑÐ³Ð¸ Ð½Ð° ÑÐ¾Ð½Ðµ ÐºÐ°Ðº Ð°ÐºÑÐµÐ½Ñ */
+  body::before {
+    content: ''; position: fixed;
+    width: 300px; height: 300px;
+    background: rgba(85, 124, 234, 0.06);
+    border-radius: 50%; filter: blur(80px);
+    top: -50px; right: 10%;
+    pointer-events: none;
+  }
+  body::after {
+    content: ''; position: fixed;
+    width: 250px; height: 250px;
+    background: rgba(85, 124, 234, 0.04);
+    border-radius: 50%; filter: blur(60px);
+    bottom: 5%; left: 10%;
+    pointer-events: none;
+  }
+
+  @media (max-width: 480px) {
+    .login-card { padding: 32px 24px; border-radius: 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-card">
+    <h1>ÐÐ¸ÑÐ½ÑÐ¹ ÐºÐ°Ð±Ð¸Ð½ÐµÑ</h1>
+    <p class="subtitle">ÐÐ¾Ð¹Ð´Ð¸ÑÐµ, ÑÑÐ¾Ð±Ñ ÑÐ¿ÑÐ°Ð²Ð»ÑÑÑ Ð¸Ð½Ð²ÐµÑÑÐ¸ÑÐ¸ÑÐ¼Ð¸</p>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Ð­Ð»ÐµÐºÑÑÐ¾Ð½Ð½Ð°Ñ Ð¿Ð¾ÑÑÐ°</label>
+        <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+      </div>
+
+      <div class="form-group">
+        <label for="password">ÐÐ°ÑÐ¾Ð»Ñ</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="ÐÐ²ÐµÐ´Ð¸ÑÐµ Ð¿Ð°ÑÐ¾Ð»Ñ" autocomplete="current-password">
+          <button type="button" class="toggle-password" onclick="togglePass()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <a href="#" class="forgot-link">ÐÐ°Ð±ÑÐ»Ð¸ Ð¿Ð°ÑÐ¾Ð»Ñ?</a>
+
+      <button type="submit" class="btn-login">
+        ÐÐ¾Ð¹ÑÐ¸
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+
+    <p class="agreement">
+      ÐÐ²ÑÐ¾ÑÐ¸Ð·Ð¾Ð²ÑÐ²Ð°ÑÑÑ, Ð²Ñ Ð¿ÑÐ¸Ð½Ð¸Ð¼Ð°ÐµÑÐµ ÑÑÐ»Ð¾Ð²Ð¸Ñ<br>
+      <a href="#">ÐÐ¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»ÑÑÐºÐ¾Ð³Ð¾ ÑÐ¾Ð³Ð»Ð°ÑÐµÐ½Ð¸Ñ</a>
+    </p>
+
+    <a href="#" class="help-link">ÐÐµ Ð¿Ð¾Ð»ÑÑÐ°ÐµÑÑÑ Ð²Ð¾Ð¹ÑÐ¸?</a>
+  </div>
+</div>
+
+<script>
+function togglePass() {
+  const inp = document.getElementById('password');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+</script>
+</body>
+</html>
