@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход — Личный кабинет | Вариант 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F6F7FB;
+    color: #0A1B33;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* === ДЕКОРАТИВНЫЕ CSS-ШЕЙПЫ (как на сайте Vertical поверх фото) === */
+  .deco-shape {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .deco-shape-1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(85,124,234,0.06) 0%, transparent 70%);
+    top: -120px; left: -100px;
+  }
+  .deco-shape-2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(98,197,132,0.05) 0%, transparent 70%);
+    bottom: -80px; right: -60px;
+  }
+  .deco-shape-3 {
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(79,165,160,0.04) 0%, transparent 70%);
+    top: 40%; right: 5%;
+  }
+  .deco-shape-4 {
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(85,124,234,0.04) 0%, transparent 70%);
+    bottom: 15%; left: 8%;
+  }
+
+  .page-wrapper { width: 100%; max-width: 1300px; position: relative; z-index: 1; }
+
+  /* === 3-КОЛОНОЧНАЯ СЕТКА === */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 420px 1fr;
+    gap: 14px;
+    align-items: stretch;
+  }
+
+  .col-left, .col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .col-center {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* === ФОРМА === */
+  .form-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 2px 16px rgba(10, 27, 51, 0.06);
+  }
+
+  h1 { font-size: 26px; font-weight: 600; color: #283F5B; margin-bottom: 10px; text-align: center; letter-spacing: -0.2px; }
+  .subtitle { font-size: 15px; color: #9BA2BE; margin-bottom: 28px; text-align: center; font-weight: 400; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; color: #283F5B; margin-bottom: 7px; }
+  .form-group input {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid #E9EBF8; border-radius: 12px;
+    font-size: 15px; font-family: inherit; color: #0A1B33;
+    background: #F6F7FB; transition: all 0.2s; outline: none;
+  }
+  .form-group input::placeholder { color: #B0B5CB; }
+  .form-group input:focus { border-color: #557CEA; background: #fff; box-shadow: 0 0 0 3px rgba(85,124,234,0.08); }
+
+  .password-wrapper { position: relative; }
+  .password-wrapper input { padding-right: 48px; }
+  .toggle-password {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: #B0B5CB; padding: 4px;
+  }
+  .toggle-password:hover { color: #557CEA; }
+
+  .forgot-link {
+    display: block; text-align: center; font-size: 13px;
+    color: #557CEA; text-decoration: none; margin-bottom: 24px; font-weight: 500;
+  }
+  .forgot-link:hover { color: #3A7FD9; }
+
+  .btn-login {
+    width: 100%; padding: 17px 32px;
+    background: #557CEA; color: #fff; border: none; border-radius: 300px;
+    font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    height: 55px;
+  }
+  .btn-login:hover { background: #4468D0; box-shadow: 0 6px 20px rgba(85,124,234,0.25); }
+  .btn-login svg { transition: transform 0.2s; }
+  .btn-login:hover svg { transform: translateX(3px); }
+
+  .agreement { margin-top: 24px; font-size: 12px; color: #9BA2BE; text-align: center; line-height: 1.6; }
+  .agreement a { color: #557CEA; text-decoration: none; }
+  .help-link { display: block; text-align: center; margin-top: 14px; font-size: 13px; color: #9BA2BE; text-decoration: none; }
+  .help-link:hover { color: #557CEA; }
+
+  /* === КАРТОЧКИ === */
+  .card {
+    background: #fff;
+    border: 1px solid #F0F1F7;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Стат-карточка с декоративной иконкой */
+  .stat-card { padding: 22px 20px; }
+  .stat-value {
+    font-size: 36px;
+    font-weight: 300;
+    color: #557CEA;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0A1B33;
+    line-height: 1.4;
+  }
+  .stat-decor {
+    position: absolute; right: 12px; bottom: 12px;
+    width: 65px; height: 65px;
+  }
+  .stat-decor img { width: 100%; height: 100%; opacity: 0.1; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* Слайдер проектов */
+  .slider-card {
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    height: 280px;
+    flex-shrink: 0;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .slide.active { opacity: 1; }
+  .slide img { width: 100%; height: 100%; object-fit: cover; }
+  .slide-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 25%, rgba(10,27,51,0.55) 100%);
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;
+  }
+  .slide-tag {
+    display: inline-block; background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+    border-radius: 8px; padding: 5px 12px; font-size: 12px; font-weight: 600;
+    color: #fff; margin-bottom: 8px; width: fit-content;
+  }
+  .slide-title { color: #fff; font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .slide-sub { color: rgba(255,255,255,0.8); font-size: 14px; margin-top: 4px; font-weight: 500; }
+  .slider-dots {
+    position: absolute; bottom: 14px; right: 18px; z-index: 2;
+    display: flex; gap: 5px;
+  }
+  .slider-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,0.35); cursor: pointer; transition: all 0.3s;
+  }
+  .slider-dot.active { width: 20px; border-radius: 4px; background: #fff; }
+
+  /* Текстовый блок с описанием */
+  .text-card {
+    padding: 24px 22px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .text-card-label {
+    font-size: 11px; font-weight: 600; color: #557CEA;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;
+  }
+  .text-card-title {
+    font-size: 17px; font-weight: 600; color: #0A1B33;
+    line-height: 1.4; margin-bottom: 10px;
+  }
+  .text-card-desc {
+    font-size: 13px; color: #6B7A99; line-height: 1.6;
+  }
+
+  /* Чипы */
+  .chip-list {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px;
+    background: #F6F7FB;
+    border-radius: 10px;
+    font-size: 12px; font-weight: 500; color: #283F5B;
+  }
+  .chip-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .chip-dot-blue { background: #557CEA; }
+  .chip-dot-green { background: #62C584; }
+  .chip-dot-teal { background: #4FA5A0; }
+
+  /* Стат-карточка с иконкой-домиком (инлайн SVG) */
+  .stat-icon-card {
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .stat-icon-card .icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: #F0F3FF;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+    color: #557CEA;
+  }
+  .stat-icon-card .stat-value {
+    font-size: 30px;
+  }
+
+  /* Награды */
+  .awards-card { padding: 18px 20px; }
+  .awards-title {
+    font-size: 11px; font-weight: 600; color: #6B7A99;
+    margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px;
+  }
+  .awards-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .awards-row img { height: 32px; width: auto; opacity: 0.55; transition: opacity 0.2s; }
+  .awards-row img:hover { opacity: 1; }
+  .award-sep { width: 1px; height: 24px; background: #E9EBF8; flex-shrink: 0; }
+
+  /* UTP */
+  .info-card { padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+  .info-card-text { flex: 1; }
+  .info-card-title { font-size: 14px; font-weight: 600; color: #0A1B33; margin-bottom: 3px; }
+  .info-card-desc { font-size: 12px; color: #6B7A99; line-height: 1.4; }
+  .info-card-arrow {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #F6F7FB; color: #557CEA; flex-shrink: 0;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .info-card-arrow:hover { background: #557CEA; color: #fff; }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 1100px) {
+    .main-grid { grid-template-columns: 1fr 1fr; }
+    .col-left { order: 2; }
+    .col-center { order: 1; }
+    .col-right { order: 3; }
+  }
+  @media (max-width: 768px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .col-left, .col-center, .col-right { order: unset; }
+    .stat-row { grid-template-columns: 1fr; }
+    .slider-card { height: 220px; }
+  }
+  @media (max-width: 480px) {
+    body { padding: 12px; }
+    .form-card { padding: 28px 22px; border-radius: 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Декоративные полупрозрачные шейпы на фоне -->
+<div class="deco-shape deco-shape-1"></div>
+<div class="deco-shape deco-shape-2"></div>
+<div class="deco-shape deco-shape-3"></div>
+<div class="deco-shape deco-shape-4"></div>
+
+<div class="page-wrapper">
+  <div class="main-grid">
+
+    <!-- ЛЕВАЯ КОЛОНКА -->
+    <div class="col-left">
+      <!-- 2 стата с иконками -->
+      <div class="stat-row">
+        <div class="card stat-icon-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/>
+            </svg>
+          </div>
+          <div class="stat-value">13 лет</div>
+          <div class="stat-label">Управляем<br>апартаментами</div>
+          <div class="stat-decor"><img src="https://vertical-invest.ru/local/templates/vertical/img/mainscreen-item4-icon1.svg" alt=""></div>
+        </div>
+        <div class="card stat-icon-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 15l-3-3h6l-3 3z"/><circle cx="12" cy="8" r="2"/><path d="M20 12a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/>
+            </svg>
+          </div>
+          <div class="stat-value">№1</div>
+          <div class="stat-label">На рынке управления<br>апартаментами</div>
+          <div class="stat-decor"><img src="https://vertical-invest.ru/local/templates/vertical/img/mainscreen-item4-icon2.svg" alt=""></div>
+        </div>
+      </div>
+
+      <!-- Текстовый блок об экосистеме -->
+      <div class="card text-card">
+        <div class="text-card-label">Экосистема</div>
+        <div class="text-card-title">Больше, чем апартаменты: пространства для жизни и работы</div>
+        <div class="text-card-desc">Каждый апарт-отель Vertical включает полную инфраструктуру: от ресторанов и коворкингов до конференц-залов и фитнеса.</div>
+        <div class="chip-list">
+          <div class="chip"><span class="chip-dot chip-dot-blue"></span>Рестораны</div>
+          <div class="chip"><span class="chip-dot chip-dot-green"></span>Коворкинги</div>
+          <div class="chip"><span class="chip-dot chip-dot-teal"></span>Лобби-бары</div>
+          <div class="chip"><span class="chip-dot chip-dot-blue"></span>Конференц-зоны</div>
+          <div class="chip"><span class="chip-dot chip-dot-green"></span>Фитнес</div>
+        </div>
+      </div>
+
+      <!-- Стат: 700 инвесторов (белая карточка, не градиент) -->
+      <div class="card stat-icon-card">
+        <div class="icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="stat-value">700+</div>
+        <div class="stat-label">Частных инвесторов доверили<br>нам управление активами</div>
+        <div class="stat-decor"><img src="https://vertical-invest.ru/local/templates/vertical/img/mainscreen-item4-icon1.svg" alt=""></div>
+      </div>
+    </div>
+
+    <!-- ЦЕНТРАЛЬНАЯ КОЛОНКА: ФОРМА -->
+    <div class="col-center">
+      <div class="form-card">
+        <h1>Личный кабинет</h1>
+        <p class="subtitle">Войдите, чтобы управлять инвестициями</p>
+        <form>
+          <div class="form-group">
+            <label for="email">Электронная почта</label>
+            <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <div class="password-wrapper">
+              <input type="password" id="password" placeholder="Введите пароль" autocomplete="current-password">
+              <button type="button" class="toggle-password" onclick="togglePass()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+          <a href="#" class="forgot-link">Забыли пароль?</a>
+          <button type="submit" class="btn-login">
+            Войти
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <p class="agreement">Авторизовываясь, вы принимаете условия <a href="#">Пользовательского соглашения</a></p>
+        <a href="#" class="help-link">Не получается войти?</a>
+      </div>
+
+      <!-- Награды -->
+      <div class="card awards-card">
+        <div class="awards-title">Награды</div>
+        <div class="awards-row">
+          <img src="https://vertical-invest.ru/local/templates/vertical/img/about-logo1.webp" alt="Urban Awards">
+          <div class="award-sep"></div>
+          <img src="https://vertical-invest.ru/local/templates/vertical/img/about-logo2.webp" alt="Победитель">
+          <div class="award-sep"></div>
+          <img src="https://vertical-invest.ru/local/templates/vertical/img/about-logo3.webp" alt="Best">
+          <div class="award-sep"></div>
+          <img src="https://vertical-invest.ru/local/templates/vertical/img1/about-logo4.webp" alt="CRE Awards">
+        </div>
+      </div>
+
+      <!-- UTP -->
+      <div class="card info-card">
+        <div class="info-card-text">
+          <div class="info-card-title">Первый взнос от 500 000 ₽</div>
+          <div class="info-card-desc">Гарантированный доход и профессиональное управление</div>
+        </div>
+        <a href="https://vertical-invest.ru/" class="info-card-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- ПРАВАЯ КОЛОНКА -->
+    <div class="col-right">
+      <!-- Слайдер проектов -->
+      <div class="slider-card">
+        <div class="slide active">
+          <img src="https://vertical-invest.ru/upload/medialibrary/c3e/mdoava72rsr06ix42txi3b4sqd5y7c2t.webp" alt="Vertical Московская">
+          <div class="slide-overlay">
+            <div class="slide-tag">Объект сдан</div>
+            <div class="slide-title">Vertical Московская</div>
+            <div class="slide-sub">от 5.6 млн ₽ · Санкт-Петербург</div>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://vertical-invest.ru/upload/medialibrary/892/wk9ylfw23rjua9upom0k282p46xw4ywx.webp" alt="Vertical Лесная">
+          <div class="slide-overlay">
+            <div class="slide-tag">Объект сдан</div>
+            <div class="slide-title">Vertical Лесная</div>
+            <div class="slide-sub">от 5.4 млн ₽ · Санкт-Петербург</div>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://vertical-invest.ru/upload/medialibrary/dad/vctkowawmcbwef2xlre05r0j99puewk1.webp" alt="Vertical Фрунзенская">
+          <div class="slide-overlay">
+            <div class="slide-tag">Объект сдан</div>
+            <div class="slide-title">Vertical Фрунзенская</div>
+            <div class="slide-sub">от 12.3 млн ₽ · Санкт-Петербург</div>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="https://vertical-invest.ru/upload/medialibrary/007/qlude4tsuugl9wytm2d7tj163kzmi7d9.webp" alt="Vertical Таганская">
+          <div class="slide-overlay">
+            <div class="slide-tag">Объект сдан</div>
+            <div class="slide-title">Vertical Таганская</div>
+            <div class="slide-sub">от 8.2 млн ₽ · Москва</div>
+          </div>
+        </div>
+        <div class="slider-dots">
+          <div class="slider-dot active" data-slide="0"></div>
+          <div class="slider-dot" data-slide="1"></div>
+          <div class="slider-dot" data-slide="2"></div>
+          <div class="slider-dot" data-slide="3"></div>
+        </div>
+      </div>
+
+      <!-- 2 стата -->
+      <div class="stat-row">
+        <div class="card stat-icon-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a4 4 0 0 0-8 0v2"/><circle cx="12" cy="14" r="2"/>
+            </svg>
+          </div>
+          <div class="stat-value">2500</div>
+          <div class="stat-label">Номеров под<br>управлением</div>
+          <div class="stat-decor"><img src="https://vertical-invest.ru/local/templates/vertical/img/mainscreen-item4-icon2.svg" alt=""></div>
+        </div>
+        <div class="card stat-icon-card">
+          <div class="icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <div class="stat-value">4</div>
+          <div class="stat-label">Апарт-отеля<br>в двух столицах</div>
+          <div class="stat-decor"><img src="https://vertical-invest.ru/local/templates/vertical/img/mainscreen-item4-icon1.svg" alt=""></div>
+        </div>
+      </div>
+
+      <!-- Текстовый блок об инвестициях + чипы -->
+      <div class="card text-card">
+        <div class="text-card-label">Инвестиции</div>
+        <div class="text-card-title">Полный цикл управления вашей доходностью</div>
+        <div class="text-card-desc">От покупки апартамента до стабильного пассивного дохода с прозрачной отчётностью в личном кабинете.</div>
+        <div class="chip-list">
+          <div class="chip"><span class="chip-dot chip-dot-blue"></span>Гарантированный доход</div>
+          <div class="chip"><span class="chip-dot chip-dot-green"></span>Рассрочка</div>
+          <div class="chip"><span class="chip-dot chip-dot-teal"></span>Ипотека</div>
+          <div class="chip"><span class="chip-dot chip-dot-blue"></span>100% оплата</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function togglePass() {
+  const inp = document.getElementById('password');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.slider-dot');
+let current = 0;
+function goToSlide(n) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+}
+dots.forEach(dot => dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.slide))));
+setInterval(() => goToSlide((current + 1) % slides.length), 4500);
+</script>
+</body>
+</html>
