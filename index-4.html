@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вход — Личный кабинет | Вариант 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F6F7FB;
+    color: #0A1B33;
+    overflow: hidden;
+  }
+
+  /* === ФОН: КОЛОНКИ С ПРОКРУЧИВАЮЩИМИСЯ ФОТО === */
+  .gallery-bg {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    gap: 12px;
+    padding: 0 12px;
+    z-index: 0;
+  }
+
+  .gallery-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gallery-column-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* Чётные столбцы вверх, нечётные вниз */
+  .gallery-column:nth-child(odd) .gallery-column-inner {
+    animation-name: scrollDown;
+    animation-duration: 80s;
+  }
+  .gallery-column:nth-child(even) .gallery-column-inner {
+    animation-name: scrollUp;
+    animation-duration: 85s;
+  }
+
+  @keyframes scrollDown {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0%); }
+  }
+
+  @keyframes scrollUp {
+    0% { transform: translateY(0%); }
+    100% { transform: translateY(-50%); }
+  }
+
+  .gallery-img {
+    width: 100%;
+    border-radius: 16px;
+    object-fit: cover;
+    aspect-ratio: 3/4;
+    display: block;
+  }
+
+  /* Белый градиент-маска: от краёв к прозрачности в центре */
+  .gallery-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    /* Радиальный градиент: прозрачный по рамке, белый к центру */
+    background:
+      radial-gradient(ellipse at center, rgba(246,247,251,0.4) 0%, rgba(246,247,251,0.75) 35%, rgba(246,247,251,0.95) 60%, #F6F7FB 100%);
+  }
+
+  /* Дополнительная виньетка по краям */
+  .gallery-overlay::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to right, #F6F7FB 0%, transparent 15%, transparent 85%, #F6F7FB 100%),
+      linear-gradient(to bottom, #F6F7FB 0%, transparent 12%, transparent 88%, #F6F7FB 100%);
+  }
+
+  /* === ФОРМА ПО ЦЕНТРУ === */
+  .login-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 8px 40px rgba(10, 27, 51, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  h1 { font-size: 26px; font-weight: 600; color: #283F5B; margin-bottom: 10px; text-align: center; letter-spacing: -0.2px; }
+  .subtitle { font-size: 15px; color: #9BA2BE; margin-bottom: 28px; text-align: center; font-weight: 400; }
+
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 500; color: #283F5B; margin-bottom: 7px; }
+  .form-group input {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid #E9EBF8; border-radius: 12px;
+    font-size: 15px; font-family: inherit; color: #0A1B33;
+    background: rgba(246,247,251,0.9); transition: all 0.2s; outline: none;
+  }
+  .form-group input::placeholder { color: #B0B5CB; }
+  .form-group input:focus {
+    border-color: #557CEA; background: #fff;
+    box-shadow: 0 0 0 3px rgba(85,124,234,0.08);
+  }
+
+  .password-wrapper { position: relative; }
+  .password-wrapper input { padding-right: 48px; }
+  .toggle-password {
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; color: #B0B5CB; padding: 4px;
+  }
+  .toggle-password:hover { color: #557CEA; }
+
+  .forgot-link {
+    display: block; text-align: center; font-size: 13px;
+    color: #557CEA; text-decoration: none; margin-bottom: 24px; font-weight: 500;
+  }
+  .forgot-link:hover { color: #3A7FD9; }
+
+  /* Кнопка-пилюля как на сайте Вертикали: border-radius 300px, большой padding */
+  .btn-login {
+    width: 100%; padding: 17px 32px;
+    background: #557CEA; color: #fff; border: none; border-radius: 300px;
+    font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    height: 55px;
+  }
+  .btn-login:hover { background: #4468D0; box-shadow: 0 6px 20px rgba(85,124,234,0.25); }
+  .btn-login svg { transition: transform 0.2s; }
+  .btn-login:hover svg { transform: translateX(3px); }
+
+  .agreement { margin-top: 24px; font-size: 12px; color: #9BA2BE; text-align: center; line-height: 1.6; }
+  .agreement a { color: #557CEA; text-decoration: none; }
+  .help-link { display: block; text-align: center; margin-top: 16px; font-size: 13px; color: #9BA2BE; text-decoration: none; }
+  .help-link:hover { color: #557CEA; }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .gallery-column:nth-child(5),
+    .gallery-column:nth-child(6) { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .gallery-column:nth-child(4) { display: none; }
+    .login-card { padding: 32px 24px; border-radius: 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ФОНОВАЯ ГАЛЕРЕЯ -->
+<div class="gallery-bg" id="galleryBg"></div>
+<div class="gallery-overlay"></div>
+
+<!-- ФОРМА -->
+<div class="login-container">
+  <div class="login-card">
+    <h1>Личный кабинет</h1>
+    <p class="subtitle">Войдите, чтобы управлять инвестициями</p>
+
+    <form>
+      <div class="form-group">
+        <label for="email">Электронная почта</label>
+        <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" placeholder="Введите пароль" autocomplete="current-password">
+          <button type="button" class="toggle-password" onclick="togglePass()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <a href="#" class="forgot-link">Забыли пароль?</a>
+      <button type="submit" class="btn-login">
+        Войти
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </form>
+    <p class="agreement">Авторизовываясь, вы принимаете условия <a href="#">Пользовательского соглашения</a></p>
+    <a href="#" class="help-link">Не получается войти?</a>
+  </div>
+</div>
+
+<script>
+function togglePass() {
+  const inp = document.getElementById('password');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// Генерируем галерею из фото
+const photos = [
+  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=70',
+  'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&q=70',
+  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&q=70',
+  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=400&q=70',
+  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&q=70',
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=70',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&q=70',
+  'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=400&q=70',
+  'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=70',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=70',
+  'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600563438938-a9a27216b4f5?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585153490-76fb20a32601?w=400&q=70',
+  'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400&q=70',
+  'https://images.unsplash.com/photo-1600607688066-890987f18a86?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753051-f0b89df2dd90?w=400&q=70',
+  'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047508788-786f3865b4b9?w=400&q=70',
+  'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=400&q=70',
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=70',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&q=70',
+  'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?w=400&q=70',
+  'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&q=70',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=70',
+  'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600563438938-a9a27216b4f5?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=400&q=70',
+  'https://images.unsplash.com/photo-1600585153490-76fb20a32601?w=400&q=70',
+  'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=400&q=70',
+  'https://images.unsplash.com/photo-1600607688066-890987f18a86?w=400&q=70',
+  'https://images.unsplash.com/photo-1600566753051-f0b89df2dd90?w=400&q=70',
+  'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?w=400&q=70',
+  'https://images.unsplash.com/photo-1600047508788-786f3865b4b9?w=400&q=70',
+  'https://images.unsplash.com/photo-1600210491369-e753d80a41f3?w=400&q=70',
+  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&q=70',
+];
+
+const COLUMNS = 6;
+const IMAGES_PER_COL = 8;
+const bg = document.getElementById('galleryBg');
+
+for (let col = 0; col < COLUMNS; col++) {
+  const colDiv = document.createElement('div');
+  colDiv.className = 'gallery-column';
+
+  const innerDiv = document.createElement('div');
+  innerDiv.className = 'gallery-column-inner';
+
+  // Дублируем картинки для бесшовной прокрутки
+  for (let dup = 0; dup < 2; dup++) {
+    for (let i = 0; i < IMAGES_PER_COL; i++) {
+      const img = document.createElement('img');
+      img.className = 'gallery-img';
+      img.src = photos[(col * IMAGES_PER_COL + i) % photos.length];
+      img.alt = '';
+      img.loading = 'lazy';
+      innerDiv.appendChild(img);
+    }
+  }
+
+  colDiv.appendChild(innerDiv);
+  bg.appendChild(colDiv);
+}
+</script>
+</body>
+</html>
